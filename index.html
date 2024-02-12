@@ -2215,6 +2215,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- Your HTML content -->
 </div>
 
+<!-- Script to check network speed and display loading animation -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const thresholdSpeed = 1000; // in Kbps (1 Mbps)
@@ -2243,17 +2244,13 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
           // Display network too slow message
           overlay.innerHTML = `<p>${networkTooSlowMessage}</p>`;
-          setTimeout(function() {
-            overlay.style.display = 'none';
-          }, 5000); // 5 seconds
+          setTimeout(checkNetworkSpeed, 5000); // Check again after 5 seconds
         }
       };
       image.onerror = function() {
         // Display network too slow message
         overlay.innerHTML = `<p>${networkTooSlowMessage}</p>`;
-        setTimeout(function() {
-          overlay.style.display = 'none';
-        }, 5000); // 5 seconds
+        setTimeout(checkNetworkSpeed, 5000); // Check again after 5 seconds
       };
       image.src = "https://www.example.com/assets/test-image.png";
     }
@@ -2262,6 +2259,7 @@ document.addEventListener('DOMContentLoaded', function() {
     checkNetworkSpeed();
   });
 </script>
+
 
 
 
