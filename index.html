@@ -2144,6 +2144,84 @@ document.addEventListener('DOMContentLoaded', function() {
 
   
 <style>
+  /* CSS for full-screen overlay */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999; /* ensure it appears on top of other content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9; /* Light gray background */
+  }
+
+  /* CSS for loading animation */
+  .loading-container {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .shape {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #3498db; /* Blue color */
+    animation: morph 2s infinite alternate; /* Morphing animation */
+  }
+
+  /* Animation keyframes for the morphing effect */
+  @keyframes morph {
+    0% {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #3498db; /* Blue color */
+    }
+    50% {
+      width: 100px;
+      height: 100px;
+      border-radius: 0%;
+      background-color: #e74c3c; /* Red color */
+    }
+    100% {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #3498db; /* Blue color */
+    }
+  }
+</style>
+
+<!-- Full-screen overlay for loading animation -->
+<div class="overlay">
+  <!-- Loading animation container -->
+  <div class="loading-container">
+    <!-- Geometric shapes -->
+    <div class="shape"></div>
+  </div>
+</div>
+
+<!-- Your content goes here (hidden during loading animation) -->
+<div id="content" style="display: none;">
+  <!-- Your HTML content -->
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Hide loading overlay after 10 seconds
+    setTimeout(function() {
+      document.querySelector('.overlay').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+    }, 10000); // 10 seconds
+  });
+</script>
+<style>
 /* CSS for full-screen overlay */
 .overlay {
     position: fixed;
@@ -2152,7 +2230,7 @@ document.addEventListener('DOMContentLoaded', function() {
     width: 100%;
     height: 100%;
     z-index: 9999; /* ensure it appears on top of other content */
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
     background-color: #f9f9f9; /* Light gray background */
@@ -2215,67 +2293,32 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-// Function to check network speed
-function checkNetworkSpeed() {
-    return new Promise((resolve, reject) => {
-        const image = new Image();
-        const startTime = performance.now();
+document.addEventListener('DOMContentLoaded', function() {
+    // Load a small image to measure network speed
+    var image = new Image();
+    var startTime = performance.now();
 
-        image.onload = () => {
-            const endTime = performance.now();
-            const duration = endTime - startTime;
-            const speed = (300 / duration).toFixed(2); // Adjusted threshold value
+    // Set image source and measure load time
+    image.onload = function() {
+        var loadTime = performance.now() - startTime;
 
-            if (speed >= 1) {
-                // Network speed is acceptable
-                resolve();
-            } else {
-                // Network speed is too slow
-                reject();
-            }
-        };
+        // Compare load time to predefined threshold (in milliseconds)
+        var threshold = 3000; // Adjust threshold as needed
+        if (loadTime > threshold) {
+            // Network speed is too slow, display warning
+            alert("Network speed is too slow. Please try again later.");
+        } else {
+            // Network speed is good, hide loading animation after 10 seconds
+            setTimeout(function() {
+                document.querySelector('.overlay').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+            }, 10000); // 10 seconds
+        }
+    };
 
-        // Change the image URL to an appropriate one for testing network speed
-        image.src = "https://www.example.com/assets/test-image.png";
-    });
-}
-
-// Function to show loading animation
-function showLoadingAnimation() {
-    document.querySelector('.overlay').style.display = 'flex';
-}
-
-// Function to hide loading animation
-function hideLoadingAnimation() {
-    document.querySelector('.overlay').style.display = 'none';
-}
-
-// Check network speed before loading content
-checkNetworkSpeed()
-    .then(() => {
-        // Network speed is acceptable, show loading animation and load content
-        showLoadingAnimation();
-        setTimeout(() => {
-            hideLoadingAnimation();
-            document.getElementById('content').style.display = 'block';
-        }, 10000); // 10 seconds
-    })
-    .catch(() => {
-        // Network speed is too slow, display loading animation until network speed improves
-        showLoadingAnimation();
-        const interval = setInterval(() => {
-            checkNetworkSpeed()
-                .then(() => {
-                    // Network speed has improved, hide loading animation and load content
-                    clearInterval(interval);
-                    hideLoadingAnimation();
-                    document.getElementById('content').style.display = 'block';
-                })
-                .catch(() => {
-                    // Network speed is still too slow, continue displaying loading animation
-                });
-        }, 2000); // Check every 2 seconds
-    });
+    // Set image source
+    image.src = "https://www.example.com/assets/test-image.png";
+});
 </script>
 
   
