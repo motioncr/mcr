@@ -2142,6 +2142,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+
+  
+
   
 <style>
   /* CSS for full-screen overlay */
@@ -2214,90 +2217,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Hide loading overlay after 10 seconds
-    setTimeout(function() {
-      document.querySelector('.overlay').style.display = 'none';
-      document.getElementById('content').style.display = 'block';
-    }, 10000); // 10 seconds
-  });
-</script>
-
-
-<style>
-  /* CSS for full-screen overlay */
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999; /* ensure it appears on top of other content */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f9f9f9; /* Light gray background */
-  }
-
-  /* CSS for loading animation */
-  .loading-container {
-    width: 200px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .shape {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #3498db; /* Blue color */
-    animation: morph 2s infinite alternate; /* Morphing animation */
-  }
-
-  /* Animation keyframes for the morphing effect */
-  @keyframes morph {
-    0% {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: #3498db; /* Blue color */
-    }
-    50% {
-      width: 100px;
-      height: 100px;
-      border-radius: 0%;
-      background-color: #e74c3c; /* Red color */
-    }
-    100% {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: #3498db; /* Blue color */
-    }
-  }
-</style>
-</head>
-
-<body>
-
-<!-- Full-screen overlay for loading animation -->
-<div class="overlay">
-  <!-- Loading animation container -->
-  <div class="loading-container">
-    <!-- Geometric shapes -->
-    <div class="shape"></div>
-  </div>
-</div>
-
-<!-- Your content goes here (hidden during loading animation) -->
-<div id="content" style="display: none;">
-  <!-- Your HTML content -->
-</div>
-
-<!-- Script to check network speed and display loading animation -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
     const thresholdSpeed = 1000; // in Kbps (1 Mbps)
     const networkTooSlowMessage = "Network too slow. Please try again later.";
 
@@ -2343,6 +2262,7 @@ document.addEventListener('DOMContentLoaded', function() {
     checkNetworkSpeed();
   });
 </script>
+
 
 
   
