@@ -2146,6 +2146,8 @@ document.addEventListener('DOMContentLoaded', function() {
   
 
   
+
+
 <style>
   /* CSS for full-screen overlay */
   .overlay {
@@ -2218,7 +2220,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const thresholdSpeed = 1000; // in Kbps (1 Mbps)
-    const networkTooSlowMessage = "Network too slow. Please try again later.";
 
     // Show loading overlay
     const overlay = document.querySelector('.overlay');
@@ -2234,26 +2235,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const endTime = performance.now();
         const duration = endTime - startTime; // in milliseconds
         const speed = (image.fileSize * 8) / (duration / 1000); // in Kbps
-        if (speed >= thresholdSpeed) {
-          // Hide loading overlay after 10 seconds
+        if (speed < thresholdSpeed) {
+          // If network speed is too slow, keep the loading animation on screen
+          setTimeout(checkNetworkSpeed, 1000); // Check network speed again after 1 second
+        } else {
+          // If network speed is good, hide loading overlay after 10 seconds
           setTimeout(function() {
             overlay.style.display = 'none';
             content.style.display = 'block';
           }, 10000); // 10 seconds
-        } else {
-          // Display network too slow message
-          overlay.innerHTML = `<p>${networkTooSlowMessage}</p>`;
-          setTimeout(function() {
-            overlay.style.display = 'none';
-          }, 5000); // 5 seconds
         }
       };
       image.onerror = function() {
-        // Display network too slow message
-        overlay.innerHTML = `<p>${networkTooSlowMessage}</p>`;
-        setTimeout(function() {
-          overlay.style.display = 'none';
-        }, 5000); // 5 seconds
+        // If image loading fails, keep the loading animation on screen
+        setTimeout(checkNetworkSpeed, 1000); // Check network speed again after 1 second
       };
       image.src = "https://motioncr.github.io/mcr/assets/images/create.png";
     }
@@ -2262,6 +2257,7 @@ document.addEventListener('DOMContentLoaded', function() {
     checkNetworkSpeed();
   });
 </script>
+
 
 
 
