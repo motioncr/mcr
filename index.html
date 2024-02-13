@@ -2219,7 +2219,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const thresholdSpeed = 1000; // in Kbps (1 Mbps)
+    const thresholdSpeed = 15000; // in Kbps (1 Mbps)
 
     // Show loading overlay
     const overlay = document.querySelector('.overlay');
@@ -2243,7 +2243,7 @@ document.addEventListener('DOMContentLoaded', function() {
           setTimeout(function() {
             overlay.style.display = 'none';
             content.style.display = 'block';
-          }, 10000); // 10 seconds
+          }, 15000); // 15 seconds
         }
       };
       image.onerror = function() {
