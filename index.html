@@ -2215,7 +2215,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- Your HTML content -->
 </div>
 
-<!-- Script to check network speed and display loading animation -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const thresholdSpeed = 1000; // in Kbps (1 Mbps)
@@ -2229,28 +2228,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to check network speed
     function checkNetworkSpeed() {
-      const xhr = new XMLHttpRequest();
+      const image = new Image();
       const startTime = performance.now();
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          const endTime = performance.now();
-          const duration = endTime - startTime; // in milliseconds
-          const speed = (xhr.responseText.length * 8) / (duration / 1000); // in Kbps
-          if (speed >= thresholdSpeed) {
-            // Hide loading overlay after 10 seconds
-            setTimeout(function() {
-              overlay.style.display = 'none';
-              content.style.display = 'block';
-            }, 10000); // 10 seconds
-          } else {
-            // Display network too slow message
-            overlay.innerHTML = `<p>${networkTooSlowMessage}</p>`;
-            setTimeout(checkNetworkSpeed, 5000); // Check again after 5 seconds
-          }
+      image.onload = function() {
+        const endTime = performance.now();
+        const duration = endTime - startTime; // in milliseconds
+        const speed = (image.fileSize * 8) / (duration / 1000); // in Kbps
+        if (speed >= thresholdSpeed) {
+          // Hide loading overlay after 10 seconds
+          setTimeout(function() {
+            overlay.style.display = 'none';
+            content.style.display = 'block';
+          }, 10000); // 10 seconds
+        } else {
+          // Display network too slow message
+          overlay.innerHTML = `<p>${networkTooSlowMessage}</p>`;
+          setTimeout(function() {
+            overlay.style.display = 'none';
+          }, 5000); // 5 seconds
         }
       };
-      xhr.open('GET', 'https://www.example.com/assets/test-file.txt', true);
-      xhr.send();
+      image.onerror = function() {
+        // Display network too slow message
+        overlay.innerHTML = `<p>${networkTooSlowMessage}</p>`;
+        setTimeout(function() {
+          overlay.style.display = 'none';
+        }, 5000); // 5 seconds
+      };
+      image.src = "https://motioncr.github.io/mcr/assets/images/create.png";
     }
 
     // Call function to check network speed
